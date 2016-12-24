@@ -1,0 +1,3 @@
+db.users.remove({});
+db.users.save({username: 'richard', password: '123456', admin: true});
+db.users.save({username: 'raphael', password: '654321', admin: false});

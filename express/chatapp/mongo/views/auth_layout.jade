@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset='ISO-8859-1')
+    title= title
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/style.css')
+    link(rel='shortcut icon', href='favicon.png')
+  body
+    #global.container
+      // https://getbootstrap.com/examples/navbar-fixed-top/
+      head.container
+        .navbar-header
+          a.navbar-brand(href='#') ChatApp
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a(href='/users/create') Users
+            li
+              a(href='/admin/chats') Rooms
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/logout') Logout
+        // /.nav-collapse
+      section#content.container
+        h1= title
+        block content

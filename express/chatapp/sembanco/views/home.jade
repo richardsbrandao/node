@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  script(type="text/javascript", src="/jquery.min.js")
+  script(type="text/javascript", src="/script.js")
+    
+  .row
+    .col-sm-4
+      h3 Chats
+      div#chats.list-group
+    .col-sm-8  
+      h3 Mensagens
+      div#messages
+      fieldset  
+        h3 Enviar sua mensagem
+        textarea(id="new-message", placeholder="Envie uma mensagem")
+        button(id='send-message').btn.btn-primary Enviar
+
+

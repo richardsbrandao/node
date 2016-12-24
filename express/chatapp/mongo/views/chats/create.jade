@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  form(method='post', action='/admin/chats')
+    fieldset(style="width:30%;")
+      .form-group
+        label(for='name') Nome:
+        input#name.form-control(type='text', name="name", placeholder="Escreva o nome da Sala de Chat")
+      .form-group
+        input.btn.btn-primary(type='submit', value="Salvar", style="margin-right:4px;")
+        a.btn.btn-danger(href='/chats') Voltar

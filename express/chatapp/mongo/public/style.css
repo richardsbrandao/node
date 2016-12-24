@@ -1,0 +1,11 @@
+#messages { height: 200px; overflow-y: auto; }
+.chat-message { font-size:0.8em; }
+
+.chat-message .author { float:left; font-weight: bold; width:50%; }
+.chat-message .date { float:right;; width:50%;}
+.chat-message .text {font-size: 1.3em; width:100%; padding-left:30px;}
+
+fieldset textarea { width: 100%;}
+
+.welcome { float:right; font-size: 0.8em; font-weight: bold; }
+.welcome .name { text-decoration: underline; }

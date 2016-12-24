@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  table.table.table-striped
+    thead
+      th Nome
+      th Editar
+      th Deletar
+    tbody
+      each chat in chats
+        tr
+          td #{chat.name}
+          td 
+            a(href="/admin/chats/edit/#{chat.id}"): span.glyphicon.glyphicon-edit
+          td
+            a(href="/admin/chats/delete/#{chat.id}"): span.glyphicon.glyphicon-remove
+
+  a(href="/admin/chats/create" class="btn btn-info") Criar Chat
