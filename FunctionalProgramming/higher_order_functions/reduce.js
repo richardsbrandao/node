@@ -1,4 +1,4 @@
-var employees = require('../employees');
+var employees = require('../data/employees');
 
 var total = employees.reduce(((value, employee) => employee.salary + value), 0)
 console.log(`Total salary R$ ${total} / Média: R$ ${total/employees.length} / Total: ${employees.length}`);

@@ -1,4 +1,4 @@
-var employees = require('../employees')
+var employees = require('../data/employees')
 
 // Como nao tem, fiz um para testar
 Array.prototype.reject = function(callback) {

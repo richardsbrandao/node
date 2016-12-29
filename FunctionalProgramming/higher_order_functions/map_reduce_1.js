@@ -1,4 +1,4 @@
-var articles = require('../articles');
+var articles = require('../data/articles');
 
 var wordsGroupped = articles.map((article) => {
   return article.toLowerCase().match(/([a-z]+)/g);
