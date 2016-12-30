@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/chat'); 
+mongoose.connect('mongodb://services/chat'); 
 
 var Schema = mongoose.Schema
 
