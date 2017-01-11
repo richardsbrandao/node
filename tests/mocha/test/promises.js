@@ -1,43 +1,49 @@
 var chai = require('chai');
 var expect = chai.expect;
+var assert = chai.assert;
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
-function findCepPromise(cep) {
-	return new Promise((resolve, reject) => {
-		if(cep.length == 8) {
-			setTimeout(() => { 
-				resolve(`{"cep": "${cep}", "address": "Terra do nunca"}`)
-			}, 1000);
-		} else {
-			reject('CEP INVALIDO');
-		}
-	});
-}
+class CepService {
+	find(cep) {
+		return new Promise((resolve, reject) => {
+			if(cep && cep.length == 8) {
+				setTimeout(() => { 
+					resolve(`{"cep": "${cep}", "address": "Terra do nunca"}`)
+				}, 1000);
+			} else {
+				reject('CEP INVALIDO');
+			}
+		});
+	}
 
-function parse(content) {
-	return JSON.parse(content);
-}
-
-function errorHandler(error) {
-	console.error('Deu erro brabo! ' + error);
+	parse(content) {
+		return JSON.parse(content);
+	}
 }
 
 class UserService {
-	save(user) {
-		if(! user.name || ! user.cep) {
-			throw new Error('USUARIO INVALIDO')
-		}
-		findCepPromise(user.cep)
-			.then(parse)
-			.then((cep) => {
-				return this.appendCepInUser(cep, user)
-			})
-			.then((user) => {
-				return new Promise((resolve, reject) => {
-					FakeUserModel.save(user)
+	constructor() {
+		this.cepService = new CepService();
+	}
+
+	save(user, callback) {
+		return new Promise((resolve, reject) => {
+			if(! user.name || ! user.cep) {
+				return reject('USUARIO INVALIDO');
+			}
+
+			this.cepService.find(user.cep)
+				.then(this.cepService.parse)
+				.then((cep) => {
+					return this.appendCepInUser(cep, user)
+				})
+				.then((user) => {
+					return new Promise((resolve, reject) => {
+						resolve(FakeUserModel.save(user, callback));
+					})
 				});
-			});
+		});
 	}
 
 	appendCepInUser(cep, user) {
@@ -46,23 +52,29 @@ class UserService {
 }
 
 class FakeUserModel {
-	static save(object) {
-		setTimeout(() => { console.log('saving ' + JSON.stringify(object)) }, 1000);
+	static save(object, callback) {
+		setTimeout(() => { 
+			console.log('saving ' + JSON.stringify(object)) 
+			if(object.name != 'DARA ERRO') {
+				callback(null, Object.assign(object, {id: 1}));
+			} else {
+				callback('ERRO BRABO NA HORA DE SALVAR!', null);
+			}
+		}, 500);
 	}
 }
 
-new UserService().save({name: 'Richard', cep: '21745091'})
-
-describe('#Promise', () => {
-	describe('findCepPromise', () => {
+describe('#CepService', () => {
+	describe('find', () => {
 		it('when cep is valid', () => {
 			const expectedReturn = `{"cep": "21745091", "address": "Terra do nunca"}`;
-			return expect(findCepPromise('21745091')).to.eventually.equal(expectedReturn);
+			return expect(new CepService().find('21745091')).to.eventually.equal(expectedReturn);
 		});
 
 		it('when cep is invalid', () => {
-			return expect(findCepPromise('21745')).to.be.rejectedWith('CEP INVALIDO');
+			return expect(new CepService().find('21745')).to.be.rejectedWith('CEP INVALIDO');
 		})
+
 	});
 });
 
@@ -70,18 +82,28 @@ describe('#UserService', () => {
 	describe('save', () => {
 		const userService = new UserService();
 
-		it('when saving correctly the user', () => {
-			return expect(
-						userService.save({name: 'Richard', cep: '21745091'})
-					).to.eventually.equal('saving {"name":"Richard","cep":"21745091","address":"Terra do nunca"}');
+		it('when saving correctly the user', (done) => {
+			userService.save({name: 'Richard', cep: '21745091'}, (error, user) => {
+				assert.equal(1, user.id);
+				assert.equal('Terra do nunca', user.address);
+				done();
+			});
 		});
 
-		it('when error on save user', () => {
-
+		it('when error on save user', (done) => {
+			// return expect( userService.save({}) ).to.be.rejectedWith('USUARIO INVALIDO');
+			userService.save({}).catch((error) => {
+				//assert.equal('USUARIO INVALIDO', error);
+				done();
+			});
 		});
 
-		it('when some data is invalid', () => {
-
+		it('when some data is invalid', (done) => {
+			userService.save({name: 'DARA ERRO', cep: '21745091'}, (error, user) => {
+				assert.isNull(user);
+				assert.equal('ERRO BRABO NA HORA DE SALVAR!', error);
+				done();
+			});
 		});
 	})
 })
