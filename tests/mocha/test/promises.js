@@ -1,7 +1,7 @@
-var chai = require('chai');
-var expect = chai.expect;
-var assert = chai.assert;
-var chaiAsPromised = require("chai-as-promised");
+const chai = require('chai');
+const expect = chai.expect;
+const assert = chai.assert;
+const chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 class CepService {
@@ -33,16 +33,12 @@ class UserService {
 				return reject('USUARIO INVALIDO');
 			}
 
-			this.cepService.find(user.cep)
+			return resolve( this.cepService.find(user.cep)
 				.then(this.cepService.parse)
 				.then((cep) => {
 					return this.appendCepInUser(cep, user)
 				})
-				.then((user) => {
-					return new Promise((resolve, reject) => {
-						resolve(FakeUserModel.save(user, callback));
-					})
-				});
+				.then(FakeUserModel.save) );
 		});
 	}
 
@@ -52,15 +48,17 @@ class UserService {
 }
 
 class FakeUserModel {
-	static save(object, callback) {
-		setTimeout(() => { 
-			console.log('saving ' + JSON.stringify(object)) 
-			if(object.name != 'DARA ERRO') {
-				callback(null, Object.assign(object, {id: 1}));
-			} else {
-				callback('ERRO BRABO NA HORA DE SALVAR!', null);
-			}
-		}, 500);
+	static save(object) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => { 
+				console.log('saving ' + JSON.stringify(object)) 
+				if(object.name != 'DARA ERRO') {
+					resolve(Object.assign(object, {id: 1}));
+				} else {
+					reject('ERRO BRABO NA HORA DE SALVAR!');
+				}
+			}, 500);
+		});
 	}
 }
 
@@ -73,37 +71,39 @@ describe('#CepService', () => {
 
 		it('when cep is invalid', () => {
 			return expect(new CepService().find('21745')).to.be.rejectedWith('CEP INVALIDO');
-		})
-
+		});
 	});
 });
 
 describe('#UserService', () => {
+	const userService = new UserService();
+
 	describe('save', () => {
-		const userService = new UserService();
-
-		it('when saving correctly the user', (done) => {
-			userService.save({name: 'Richard', cep: '21745091'}, (error, user) => {
-				assert.equal(1, user.id);
-				assert.equal('Terra do nunca', user.address);
-				done();
-			});
+		beforeEach(() => {
+			const request = {name: 'Richard', cep: '21745091'};
+			result = userService.save(request);
+			return;
 		});
 
-		it('when error on save user', (done) => {
-			// return expect( userService.save({}) ).to.be.rejectedWith('USUARIO INVALIDO');
-			userService.save({}).catch((error) => {
-				//assert.equal('USUARIO INVALIDO', error);
-				done();
-			});
+		it('when saving correctly the user should have id property', () => {
+			return expect(result).to.eventually.to.have.property('id');
 		});
 
-		it('when some data is invalid', (done) => {
-			userService.save({name: 'DARA ERRO', cep: '21745091'}, (error, user) => {
-				assert.isNull(user);
-				assert.equal('ERRO BRABO NA HORA DE SALVAR!', error);
-				done();
-			});
+		it('when saving correctly the user should be equal', () => {
+			return expect(result).to.eventually
+						.deep.equal({name:"Richard",cep:"21745091",address:"Terra do nunca",id: 1});
 		});
-	})
-})
+	});
+
+	describe('error save', () => {
+		it('when error some data is invalid', () => {
+			return expect( userService.save({}) ).to
+									.eventually.be.rejectedWith('USUARIO INVALIDO');
+		});
+
+		it('when error on save user', () => {
+			return expect( userService.save({name: 'DARA ERRO', cep: '21745091'}) )
+								.to.eventually.be.rejectedWith('ERRO BRABO NA HORA DE SALVAR!');
+		});
+	});
+});
