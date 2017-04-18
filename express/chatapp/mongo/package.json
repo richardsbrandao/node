@@ -4,7 +4,8 @@
   "description": "my first express app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=dev node app",
+    "test": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive specs/"
   },
   "author": "Richard Brandão",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "chai-http": "^3.0.0",
     "express-debug": "^1.1.1",
     "mocha": "^3.2.0",
+    "mongoose-seed": "^0.3.2",
     "morgan": "^1.7.0"
   }
 }
