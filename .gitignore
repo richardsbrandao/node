@@ -1,5 +1,1 @@
-/basics/node_modules/
-/express/chatapp/mongo/node_modules/
-/express/chatapp/sembanco/node_modules/
-/express/mongoo/node_modules/
-/tests/mocha/node_modules/
+**/node_modules/
