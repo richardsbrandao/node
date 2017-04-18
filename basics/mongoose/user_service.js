@@ -7,7 +7,7 @@ function showOne(error, doc) {
 	}
 	console.log(doc);
 }
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://services/test');
 UserService = {
 	findById : function(id, callback) {
 		//582116c003237e2c435cafba
