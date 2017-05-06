@@ -10,7 +10,7 @@ class DatabaseManagement {
 
 		this.connection = mongoose.createConnection(`mongodb://${databaseConfig.host}:${databaseConfig.port}/${databaseConfig.database}`, options);
 
-		this.connection.once('open', ()=> {console.log('MongoDb connection created')});
+		this.connection.once('open', ()=> { console.log('MongoDb connection created'); });
 
 		require('../app/models/category');
 	}

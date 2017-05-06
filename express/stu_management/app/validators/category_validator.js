@@ -8,8 +8,8 @@ module.exports = {
 			throw new Error('Category subjects cannot be null');
 		}
 		
-		if( category.subjects && category.subjects.length == 0 ) {
+		if( category.subjects && category.subjects.length === 0 ) {
 			throw new Error('Category subjects cannot be empty');
 		}
 	}
-}
+};

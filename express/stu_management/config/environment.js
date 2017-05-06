@@ -24,4 +24,4 @@ module.exports = {
 	current: function() {
 		return this[process.env.NODE_ENV || 'dev'];
 	}
-}
+};

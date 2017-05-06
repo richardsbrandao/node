@@ -1,14 +1,14 @@
 const chai = require('chai');
-const expect = chai.expect
+const expect = chai.expect;
 const assert = chai.assert;
 
 describe('#CategoryValidator', () => {
 	const categoryValidator = require('../../app/validators/category_validator');
-	let request = null
+	let request = null;
 
 	beforeEach(() => {
-		request = { name: 'Java', subjects: ['SpringBoot', 'FunctionalProgramming'] }
-	})
+		request = { name: 'Java', subjects: ['SpringBoot', 'FunctionalProgramming'] };
+	});
 
 	it('validate category', () => {
 		categoryValidator.validate(request);

@@ -49,7 +49,7 @@ describe('#Categories', () => {
 		let request = {};
 
 		beforeEach(() => {
-			request = { name: 'Shell Script', subjects: ['Redes', 'Logs'] }
+			request = { name: 'Shell Script', subjects: ['Redes', 'Logs'] };
 		});
 
 		it('save category', (done) => {

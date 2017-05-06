@@ -35,7 +35,7 @@ router.route('/:categoryId')
 		}).then((category) => {
 			response.status(200).json(categoryModelToJson(category));
 		}).catch((e) => {
-			response.status(e.status).json({message: e.message})
+			response.status(e.status).json({message: e.message});
 		});
 	})
 	.put((request, response) => {
@@ -47,6 +47,6 @@ router.route('/:categoryId')
 		}).then((message) => {
 			response.status(204).json('');
 		});
-	})
+	});
 
 module.exports = router;

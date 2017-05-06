@@ -13,7 +13,7 @@ module.exports = {
 			const category = new Category();
 			category.name = categoryReq.name;
 			category.subjects = categoryReq.subjects;
-			resolve(category.save())
+			resolve(category.save());
 		});
 	},
 	findById: (id) => {
@@ -23,7 +23,7 @@ module.exports = {
 			}
 			resolve(Category.findById(id).exec());
 		}).then((category) => {
-			if( category == null ) {
+			if( category === null ) {
 				throw {message: 'Category not found', status: 404};
 			}
 
