@@ -108,5 +108,118 @@ describe('#Categories', () => {
 						done();
 					});
 		});
+
+		it('find category by inexistent id', (done) => {
+			categoryServiceSpy = sinon.spy(categoryService, 'findById');
+
+			chai.request(server)
+					.get(`/stu_management/api/categories/58f17d8e0025cbef04a1ef00`)
+					.end((error, response) => {
+						response.should.have.status(404);						
+
+						assert.equal(response.body.message, 'Category not found');
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+						
+						done();
+					});
+		});
+
+		it('find category by invalid id', (done) => {
+			categoryServiceSpy = sinon.spy(categoryService, 'findById');
+
+			chai.request(server)
+					.get(`/stu_management/api/categories/INVALID`)
+					.end((error, response) => {
+						response.should.have.status(404);						
+
+						assert.equal(response.body.message, 'Category not found');
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+						
+						done();
+					});
+		});
+	});
+
+	describe('#update', () => {
+		const url = `/stu_management/api/categories/${RUBY_ID_ITEM}`;
+		const request = {name: 'Ruby on Rails', subjects: ['ActiveRecord', 'Rails Caching']};
+
+		it('update category', (done) => {
+			categoryServiceSpy = sinon.spy(categoryService, 'update');
+
+			chai.request(server)
+					.put(url)
+					.send(request)
+					.end((error, response) => {
+						response.should.have.status(200);						
+
+						assert.equal(response.body.id, RUBY_ID_ITEM);
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+
+						done();
+					});
+		});
+
+		it('update inexistent category', (done) => {
+			const url = `/stu_management/api/categories/58f17d8e0025cbef04a1ef00`;
+			categoryServiceSpy = sinon.spy(categoryService, 'update');
+
+			chai.request(server)
+					.put(url)
+					.send(request)
+					.end((error, response) => {
+						response.should.have.status(404);						
+
+						assert.equal(response.body.message, 'Category not found');
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+						
+						done();
+					});
+		});
+
+		it('update invalid category', (done) => {
+			const url = `/stu_management/api/categories/INVALID`;
+			categoryServiceSpy = sinon.spy(categoryService, 'update');
+
+			chai.request(server)
+					.put(url)
+					.send(request)
+					.end((error, response) => {
+						response.should.have.status(404);						
+
+						assert.equal(response.body.message, 'Category not found');
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+						
+						done();
+					});
+		});
+
+		it('update category with invalid data', (done) => {
+			request.name = null;
+			categoryServiceSpy = sinon.spy(categoryService, 'update');
+
+			chai.request(server)
+					.put(url)
+					.send(request)
+					.end((error, response) => {
+						// response.should.have.status(422);						
+
+						// assert.equal( 0, categoryServiceSpy.callCount );
+						// assert.equal( response.body.message, 'Category name cannot be null' );
+
+						// categoryServiceSpy.restore();
+						done();
+					});
+		});
 	});
 });

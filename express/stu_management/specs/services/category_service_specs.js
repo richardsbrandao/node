@@ -134,6 +134,38 @@ describe('#CategoryService', () => {
 					});
 		});
 	});
+
+	describe('#update', () => {
+		const categoryToUpdate = {name: 'Ruby on Rails', subjects: ['ActiveRecord', 'Rails Caching']};
+
+		it('update category', (done) => {
+			categoryService.update('58f17d8e0025cbef04a1ef39', categoryToUpdate)
+								.then((updateResult) => {
+									assert.equal(updateResult.nModified, 1);
+									done();
+								});
+		});
+
+		it('update inexistent category', (done) => {
+			categoryService.update('58f17d8e0025cbef04a1ef00', categoryToUpdate)
+								.catch((e) => {
+									assert.equal(e.status, 404);
+									assert.equal(e.message, 'Category not found');
+									
+									done();
+								});
+		});
+
+		it('update invalid category', (done) => {
+			categoryService.delete('INVALID')
+					.catch((e) => {
+						assert.equal(e.status, 404);
+						assert.equal(e.message, 'Category not found');
+						
+						done();
+					});
+		});
+	});
 });
 
 function findById(allCategories, id) {

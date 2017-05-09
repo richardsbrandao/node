@@ -1,15 +1,15 @@
 module.exports = {
 	validate: (category) => {
 		if( ! category.name ) {
-			throw new Error('Category name cannot be null');
+			throw { message: 'Category name cannot be null', status: 422 };
 		}
 
 		if( ! category.subjects ) {
-			throw new Error('Category subjects cannot be null');
+			throw { message: 'Category subjects cannot be null', status: 422 };
 		}
 		
 		if( category.subjects && category.subjects.length === 0 ) {
-			throw new Error('Category subjects cannot be empty');
+			throw { message: 'Category subjects cannot be empty', status: 422 };
 		}
 	}
 };

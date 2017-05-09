@@ -39,7 +39,15 @@ router.route('/:categoryId')
 		});
 	})
 	.put((request, response) => {
-
+		return new Promise((resolve, reject) => {
+			categoryValidator.validate(request.body);
+			resolve(categoryService.update(request.params.categoryId, request.body));
+		}).then((category) => {
+			response.status(200).json({id: request.params.categoryId});
+		}).catch((e) => {
+			console.log(e + ">>>>>>>>>>")
+			response.status(e.status).json({message: e.message});
+		});
 	})
 	.delete((request, response) => {
 		return new Promise((resolve, reject) => {

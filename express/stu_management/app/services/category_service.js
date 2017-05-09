@@ -2,7 +2,7 @@ const connection = require('../../config/database').connection;
 const Category = connection.model('Category');
 const isValidObjectId = require('mongoose').Types.ObjectId.isValid;
 
-module.exports = {
+const self = module.exports = {
 	findAll: () => {
 		return new Promise((resolve, reject) => {
 			resolve(Category.find());
@@ -37,5 +37,13 @@ module.exports = {
 			}
 			resolve(Category.findByIdAndRemove(id).exec());
 		});
+	},
+	update: (id, categoryToUpdate) => {
+		return self.findById(id)
+					.then((category) => {
+						return new Promise((resolve) => {
+							resolve( Category.update({_id: category.id}, categoryToUpdate).exec() );	
+						});
+					});
 	}
 };
