@@ -16,13 +16,18 @@ describe('#CategoryService', () => {
 	});
 
 	describe('#findAll', () => {
-		it('find all categories', (done) => {
-			categoryService.findAll()
-					.then((allCategories) => {
-						assert.isTrue(Array.isArray(allCategories), 'it should be an array');
-						assert.equal(allCategories.length, 2);
+		it('find all categories with pagination', (done) => {
+			categoryService.findAll({page: 1, limit: 2})
+					.then((result) => {
+						assert.equal(result.total, 2);
+						assert.equal(result.limit, 2);
+						assert.equal(result.page, 1);
+						assert.equal(result.pages, 1);
+
+						assert.isTrue(Array.isArray(result.docs), 'it should be an array');
+						assert.equal(result.docs.length, 2);
 						
-						firstCategory = findById(allCategories, RUBY_ID_ITEM);
+						firstCategory = findById(result.docs, RUBY_ID_ITEM);
 
 						assert.equal(firstCategory.id, RUBY_ID_ITEM);
 						assert.equal(firstCategory.name, 'Ruby');
@@ -32,7 +37,7 @@ describe('#CategoryService', () => {
 						assert.equal(firstCategory.subjects[2], "Sidekiq");
 						assert.equal(firstCategory.subjects[3], "Concurrency");
 
-						secondCategory = findById(allCategories, JAVA_ID_ITEM);
+						secondCategory = findById(result.docs, JAVA_ID_ITEM);
 						assert.equal(secondCategory.id, JAVA_ID_ITEM);
 						assert.equal(secondCategory.name, 'Java');
 						

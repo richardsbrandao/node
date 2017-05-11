@@ -3,9 +3,9 @@ const Category = connection.model('Category');
 const isValidObjectId = require('mongoose').Types.ObjectId.isValid;
 
 const self = module.exports = {
-	findAll: () => {
+	findAll: (pagination) => {
 		return new Promise((resolve, reject) => {
-			resolve(Category.find());
+			resolve(Category.paginate({}, pagination));
 		});
 	},
 	save: (categoryReq) => {

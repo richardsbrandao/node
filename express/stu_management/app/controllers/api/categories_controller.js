@@ -11,10 +11,14 @@ function categoryModelToJson(model) {
 router.route('/')
 	.get((request, response) => {
 		return new Promise((resolve, reject) => {
-			resolve(categoryService.findAll());
+			const page = request.query.page || 1;
+			const limit = request.query.limit || 10;
+			resolve(categoryService.findAll({page: parseInt(page), limit: parseInt(limit)}));
 		})
 		.then((serviceResponse) => {
-			response.status(200).json(serviceResponse.map((category) => { return categoryModelToJson(category); }));
+			const categoryDocuments = serviceResponse.docs.map((category) => { return categoryModelToJson(category); });
+			const pagination = {total: serviceResponse.total, limit: serviceResponse.limit, page: serviceResponse.page, pages: serviceResponse.pages};
+			response.status(200).json({documents: categoryDocuments, pagination: pagination});
 		});
 	})
 	.post((request, response) => {
@@ -45,7 +49,6 @@ router.route('/:categoryId')
 		}).then((category) => {
 			response.status(200).json({id: request.params.categoryId});
 		}).catch((e) => {
-			console.log(e + ">>>>>>>>>>")
 			response.status(e.status).json({message: e.message});
 		});
 	})

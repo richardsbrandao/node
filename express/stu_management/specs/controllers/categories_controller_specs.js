@@ -21,7 +21,7 @@ describe('#Categories', () => {
 	});
 
 	describe('#findAll', () => {
-		it('find all categories', (done) => {
+		it('find all categories with default pagination', (done) => {
 			categoryServiceSpy = sinon.spy(categoryService, 'findAll');
 
 			chai.request(server)
@@ -29,7 +29,39 @@ describe('#Categories', () => {
 					.end((error, response) => {
 						response.should.have.status(200);
 
-						response.body.forEach((category) => {
+						assert.equal(response.body.pagination.total, 2);
+						assert.equal(response.body.pagination.page, 1);
+						assert.equal(response.body.pagination.pages, 1);
+						assert.equal(response.body.pagination.limit, 10);
+
+						response.body.documents.forEach((category) => {
+							assert.equal(Object.keys(category).length, 3);
+								
+							assert.include(Object.keys(category), 'id');
+							assert.include(Object.keys(category), 'name');
+							assert.include(Object.keys(category), 'subjects');
+						});
+
+						assert.equal( 1, categoryServiceSpy.callCount );
+						categoryServiceSpy.restore();
+						done();
+					});
+		});
+
+		it('find all categories with pagination', (done) => {
+			categoryServiceSpy = sinon.spy(categoryService, 'findAll');
+
+			chai.request(server)
+					.get('/stu_management/api/categories?limit=1&page=2')
+					.end((error, response) => {
+						response.should.have.status(200);
+
+						assert.equal(response.body.pagination.total, 2);
+						assert.equal(response.body.pagination.page, 2);
+						assert.equal(response.body.pagination.pages, 2);
+						assert.equal(response.body.pagination.limit, 1);
+
+						response.body.documents.forEach((category) => {
 							assert.equal(Object.keys(category).length, 3);
 								
 							assert.include(Object.keys(category), 'id');
