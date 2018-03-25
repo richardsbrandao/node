@@ -1,0 +1,21 @@
+version: '3'
+services:
+  herotrip:
+    build: .
+    environment: 
+      - NODE_ENV=production
+      - DATABASE_HOST=localhost
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=herotrip
+      - DATABASE_DATABASE=herotrip
+    ports:
+      - "3100:3100"
+    depends_on: 
+      - mysql
+  mysql:
+    image: mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=herotrip
+      - MYSQL_DATABASE=herotrip
+    ports:
+      - "3306:3306"
