@@ -1,12 +1,10 @@
 import express from "express"
 import bodyParser from "body-parser"
-import configs from "./config/config.js"
+import config from "./config/config.js"
 import router from "./config/router.js"
 import database from "./config/database.js"
 
 const app = express()
-const config = configs['development']
-
 database.connect(config['database'])
 
 app.use(bodyParser.json());
