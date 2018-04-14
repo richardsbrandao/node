@@ -1,0 +1,62 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.comment {
+  background-color: aliceblue;
+  border: 1px solid #000;
+  width: 70%;
+  margin: 0 auto;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: left;
+  padding: 0px 15px;
+}
+
+.comment .title {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.comment .email {
+  font-size: 0.8em;
+}
+
+.comment .body {
+  text-align:justify;
+}
+
+.pure-button {
+  font-size: 100%;
+  margin-left: 1px;
+  padding: .5em 1em;
+  color: #444;
+  color: rgba(0,0,0,.8);
+  border: 1px solid #999;
+  border: transparent;
+  background-color: #E6E6E6;
+}
