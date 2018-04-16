@@ -27,7 +27,7 @@
   to { transform: rotate(360deg); }
 }
 
-.comment {
+.comment, .comment-edit {
   background-color: aliceblue;
   border: 1px solid #000;
   width: 70%;
@@ -37,17 +37,29 @@
   padding: 0px 15px;
 }
 
-.comment .title {
+.comment .title, .comment-edit .title {
   font-weight: bold;
   font-size: 1.2em;
+  margin: 10px;
 }
 
 .comment .email {
   font-size: 0.8em;
 }
 
+.comment-edit .input {
+  display:block;
+  padding:1px;
+  width: 60%;
+  border: 1px solid #222;
+}
+
 .comment .body {
   text-align:justify;
+}
+
+.comment-edit .text {
+  height:120px;
 }
 
 .pure-button {
