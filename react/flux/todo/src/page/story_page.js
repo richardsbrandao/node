@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Story extends Component {
+class StoryPage extends Component {
     render() {
         return (
             <div>
@@ -10,4 +10,4 @@ class Story extends Component {
     }
 }
 
-export default Story
+export default StoryPage

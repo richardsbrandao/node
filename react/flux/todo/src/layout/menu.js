@@ -1,17 +1,26 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { Nav, NavItem, NavLink, CardTitle } from 'reactstrap'
 
 class Menu extends Component {
     render() {
         return (
-            <nav>
-                <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/epics">Epics</Link></li>
-                    <li><Link to="/stories">Stories</Link></li>
-                    <li><Link to="/tasks">Tasks</Link></li>
-                </ul>
-            </nav>
+            <Nav>
+                <NavItem>
+                    <CardTitle className="title">REACT FLUX EXAMPLE</CardTitle>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/">Home</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/epics">Epic</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/stories">Stories</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/tasks">Tasks</NavLink>
+                </NavItem>
+            </Nav>
         )
     }
 }

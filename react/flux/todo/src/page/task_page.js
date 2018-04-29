@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-class Task extends Component {
+class TaskPage extends Component {
     render() {
         return (<div>Task</div>)
     }
 }
 
-export default Task
+export default TaskPage

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-import Home from './page/home'
-import Epic from './page/epic'
-import Story from './page/story'
-import Task from './page/task'
+import HomePage from './page/home_page'
+import EpicPage from './page/epic_page'
+import StoryPage from './page/story_page'
+import TaskPage from './page/task_page'
 
-import Header from './layout/header'
 import Menu from './layout/menu'
 import Content from './layout/content'
 
@@ -17,13 +16,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header />
         <Menu />
         <Content>
-          <Route exact path="/" component={Home} />
-          <Route path="/epics" component={Epic} />
-          <Route path="/stories" component={Story} />
-          <Route path="/tasks" component={Task} />
+          <Route exact path="/" component={HomePage} />
+          <Route path="/epics" component={EpicPage} />
+          <Route path="/stories" component={StoryPage} />
+          <Route path="/tasks" component={TaskPage} />
         </Content>
       </div>
     )
