@@ -4,10 +4,12 @@ services:
     build: .
     environment: 
       - NODE_ENV=production
-      - DATABASE_HOST=localhost
+      - DATABASE_HOST=mysql
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=herotrip
       - DATABASE_DATABASE=herotrip
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379 
     ports:
       - "3100:3100"
     depends_on: 
