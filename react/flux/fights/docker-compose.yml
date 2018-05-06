@@ -1,0 +1,9 @@
+version: '3'
+services:
+  frontend:
+    build: .
+    environment: 
+      - NODE_ENV=production
+      - API_ENDPOINT=172.19.0.4:3100
+    ports:
+      - "3000:3000"
