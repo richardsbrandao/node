@@ -1,0 +1,12 @@
+.title {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    padding:3% 0%;
+    width: 100%;
+}
+
+.filter {
+    border: 1px solid gray;
+    padding: 10px;
+}
