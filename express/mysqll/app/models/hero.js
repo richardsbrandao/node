@@ -20,6 +20,14 @@ class Hero {
                         })
     }
 
+    static findById(id) {
+        const connection = database.get()
+        return connection.query('SELECT * FROM hero WHERE id = ?', [id])
+                            .then((rows) => {
+                                console.log(rows)
+                            })
+    }
+
     toJson() {
         return {
             id: this.id,
