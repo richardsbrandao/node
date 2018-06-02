@@ -7,6 +7,9 @@ function handleAction(state, action) {
             return {teams: Team.findBy(action.criteria)}
         case Actions.FETCH_DATA:
             return {teams: Team.findAll()}
+        case Actions.ADD_TEAM:
+            Team.add(action.team)
+            return {teams: Team.findAll()}
         default:
             return state;
     }

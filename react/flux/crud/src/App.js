@@ -9,7 +9,6 @@ import TaskPage from './page/task_page'
 import Menu from './layout/menu'
 import Content from './layout/content'
 
-// import logo from './images/logo.svg';
 import './styles/App.css';
 
 class App extends Component {

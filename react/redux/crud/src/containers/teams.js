@@ -3,37 +3,12 @@ import { connect } from 'react-redux'
 import Actions from '../constants/actions'
 import PropTypes from 'prop-types'
 import { Table, Input } from 'reactstrap'
+import TeamForm from '../components/team_form'
+import TeamFilter from '../components/team_filter'
 
 class Teams extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: null,
-            order: null,
-            country: null
-        }
-    }
-
     componentWillMount() {
         this.props.findAll()
-    }
-
-    updateName(e) {
-        this.setState({
-            name: e.target.value
-        }, this.filter)
-    }
-
-    updateOrder(e) {
-        this.setState({
-            order: e.target.value
-        }, this.filter)
-    }
-
-    updateCountry(e) {
-        this.setState({
-            country: e.target.value
-        }, this.filter)
     }
 
     filter() {
@@ -43,27 +18,32 @@ class Teams extends Component {
         this.props.findBy({ name, country, order })
     }
 
+    updateName(name) {
+        this.setState({ name }, this.filter)
+    }
+
+    updateOrder(order) {
+        this.setState({ order }, this.filter)
+    }
+
+    updateCountry(country) {
+        this.setState({ country }, this.filter)
+    }
+
+    addTeam(team) {
+        this.props.addTeam(team)
+    }
+
     render() {
         return (
             <div>
-                <section className="filter">
-                    <Input type="text" placeholder="Type a name" onChange={this.updateName.bind(this)} />
-                    <Input type="select" onChange={this.updateCountry.bind(this)}>
-                        <option value="">All Countries</option>
-                        <option>Italy</option>
-                        <option>Spain</option>
-                        <option>Germany</option>
-                        <option>England</option>
-                        <option>Netherlands</option>
-                    </Input>
-                    <Input type="select" onChange={this.updateOrder.bind(this)}>
-                        <option value="">No Order</option>
-                        <option value="nationalLeague">National League</option>
-                        <option value="championsLeague">Champions</option>
-                        <option value="nationalCup">National Cup</option>
-                        <option value="worldCup">World Cup</option>
-                    </Input>
-                </section>
+                <TeamForm addTeam={this.addTeam.bind(this)} />
+                <TeamFilter 
+                    updateOrder={this.updateOrder.bind(this)} 
+                    updateCountry={this.updateCountry.bind(this)}
+                    updateName={this.updateName.bind(this)}
+                    />
+                
                 <Table>
                     <thead>
                         <tr>
@@ -117,6 +97,10 @@ const mapDispatchToProps = dispatch => {
         findBy: (criteria) => dispatch({
             type: Actions.FILTER_TEAMS,
             criteria
+        }),
+        addTeam: (team) => dispatch({
+            type: Actions.ADD_TEAM,
+            team
         })
     }
 }

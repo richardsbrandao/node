@@ -8,4 +8,8 @@ function findAll() {
     return { type: Actions.FETCH_TEAM }
 }
 
+function addTeam(team) {
+    return { type: Actions.ADD_TEAM, team }
+}
+
 export { findBy, findAll }

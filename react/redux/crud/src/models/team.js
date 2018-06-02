@@ -39,5 +39,6 @@ function findByCriteria(criteria) {
 
 export default  {
     findAll: () => teams,
-    findBy: findByCriteria
+    findBy: findByCriteria,
+    add: (team) => teams.push(team)
 }
